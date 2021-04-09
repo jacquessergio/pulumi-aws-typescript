@@ -1,0 +1,8 @@
+config:
+  aws-typescript:api_name: api-demo
+  aws-typescript:db_url: mongodb://localhost:27017/apis
+  aws-typescript:environment: dev
+  aws-typescript:lambda_authorization: api-auth-dev-authorization
+  aws-typescript:lambda_execution_name: api-teste-googleads-stg-proxy
+  aws:region: us-east-1
+  pulumi:template: aws-typescript
