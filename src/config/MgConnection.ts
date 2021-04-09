@@ -1,6 +1,6 @@
 import * as mongoose from "mongoose";
 
-export class Database {
+export class MgConnection {
 
     private url: string;
 

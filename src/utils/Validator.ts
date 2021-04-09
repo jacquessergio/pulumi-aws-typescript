@@ -13,6 +13,9 @@ export class Validator {
         if (config.require("db_url") == null || config.require("db_url") == undefined) {
             throw new Error("Database URL - cannot be null!");
         }
+        if (config.require("revision_id") == null || config.require("revision_id") == undefined) {
+            throw new Error("Deploy ID - cannot be null!");
+        }
     }
 
 }
