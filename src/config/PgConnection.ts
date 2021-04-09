@@ -1,7 +1,11 @@
 import { Pool } from 'pg';
 
+import { Environment } from "../config/Environment";
+
+let config = Environment.config();
+
 export default new Pool ({
     max: 20,
-    connectionString: 'postgres://postgres:postgres@localhost:5432/WSO2AM_DB',
+    connectionString: config.pgConnectionString,
     idleTimeoutMillis: 1000
 });

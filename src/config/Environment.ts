@@ -14,6 +14,7 @@ export class Environment {
             revisionId: enviroment.require("revision_id"),
             authorization: enviroment.require("lambda_authorization"),
             eventHanlder: enviroment.require("lambda_execution_name"),
+            pgConnectionString: enviroment.require("pg_connection_string")
         }
 
         return gateway;
