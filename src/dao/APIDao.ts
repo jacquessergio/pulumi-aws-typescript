@@ -19,7 +19,9 @@ export class APIDao {
                             RS.http_method,
                             RS.url_pattern,
                             RS.auth_scheme,
-                            RS.throttling_tier
+                            RS.throttling_tier,
+                            GW.vhost,
+                            GW.label
                         FROM am_api_url_mapping RS 
                                 INNER JOIN am_gw_api_deployments GW ON (GW.revision_id = RS.revision_uuid) 
                                 INNER JOIN am_api AP ON (AP.api_uuid = GW.api_id) 

@@ -1,10 +1,11 @@
 config:
   #aws-typescript:pg_connection_string: postgres://postgres:postgres@localhost:5432/WSO2AM_DB
   aws-typescript:pg_connection_string: postgres://postgres:postgres@172.17.0.2:5432/WSO2AM_DB
-  aws-typescript:api_name: API-Login
-  aws-typescript:revision_id: b668c70f-3602-420e-894e-e60ba195130b
+  aws-typescript:api_name: Demo8
+  aws-typescript:revision_id: d608f8ce-cb29-4d76-a667-c912bf33f3de
   aws-typescript:db_url: mongodb://localhost:27017/apis
   aws-typescript:environment: dev
+  aws-typescript:certificate_arn: arn:aws:acm:us-east-1:001849918413:certificate/0f9302cc-85dd-4ccf-a00c-e6246495aa39
   aws-typescript:lambda_authorization: api-auth-dev-authorization
   aws-typescript:lambda_execution_name: api-teste-googleads-stg-proxy
   aws:region: us-east-1

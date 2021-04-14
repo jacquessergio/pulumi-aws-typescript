@@ -16,6 +16,9 @@ export class Validator {
         if (config.require("revision_id") == null || config.require("revision_id") == undefined) {
             throw new Error("Deploy ID - cannot be null!");
         }
+        if (config.require("certificate_arn") == null || config.require("certificate_arn") == undefined) {
+            throw new Error("Certificate URN is required!");
+        }
     }
 
 }
