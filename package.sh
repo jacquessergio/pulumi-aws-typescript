@@ -2,6 +2,7 @@
 
 set -o errexit # Exit on error
 CWD=$(pwd)
+chmod 777 $CWD
 BUILD_PATH_LAYERS=$CWD/layers
 cd $CWD
 
