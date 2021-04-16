@@ -2,12 +2,15 @@
 
 import * as aws from '@pulumi/aws';
 import * as awsx from '@pulumi/awsx';
+import * as pulumi from "@pulumi/pulumi"
 import { ApiAuthorizer } from "./config/Authorizer";
 import { APIDao } from "./dao/APIDao";
 import { CustomDomain } from "./config/CustomDomain";
 import { Response } from "./config/Response"
 import { CORS } from "./config/CORS"
 import { API } from '@pulumi/awsx/apigateway';
+import { FileArchive } from '@pulumi/pulumi/asset';
+import { join } from 'path';
 
 export class ApiHandler {
 
@@ -23,6 +26,7 @@ export class ApiHandler {
         this.certificateArn = config.certificateArn;
         this.authorizer = this.getAuthorizer(config.authorization);
         this.eventHandler = this.getEventHandler(config.eventHanlder);
+        this.t();
     }
 
     public async execute() {
@@ -130,7 +134,101 @@ export class ApiHandler {
     }
 
     private getEventHandler(lambdaName: string): any {
+
         return aws.lambda.Function.get(lambdaName, lambdaName);
     }
+
+
+
+
+    private t() {
+
+        const account = pulumi.output(aws.getCallerIdentity({ async: true })).accountId
+
+        const createTodoFunctionName = `${this.apiName}-dev-function`
+
+        /**
+         * IAM Role
+         */
+
+         const executionRoleName = `${this.apiName}-policy`;
+
+        const executionRole = new aws.iam.Role(executionRoleName, {
+            name: executionRoleName,
+            assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal({
+                Service: "lambda.amazonaws.com"
+            }),
+            tags: {
+                Environment: "dev"
+            }
+        })
+
+        const executionRolePolicyName = `${executionRoleName}-policy`;
+
+        const rolePolicy = new aws.iam.RolePolicy(executionRolePolicyName, {
+            name: executionRolePolicyName,
+            role: executionRole,
+            policy: {
+              Version: "2012-10-17",
+              Statement: [
+                {
+                  Effect: "Allow",
+                  Action: [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents",
+                  ],
+                  Resource: account.apply(
+                    (accountId) =>
+                      `arn:aws:logs:${aws.config.region}:${accountId}:log-group:/aws/lambda/${createTodoFunctionName}*`
+                  )
+                }
+              ]
+            }
+          })
+
+        
+        /**
+         * Code Archive & Lambda layer
+         */
+        const code = new pulumi.asset.AssetArchive({
+            ".": new pulumi.asset.FileArchive(this.relativeRootPath("build/archive.zip"))
+        })
+
+        const zipFile = this.relativeRootPath("layers/archive.zip")
+
+        const nodeModuleLambdaLayerName = `${createTodoFunctionName}-lambda-layer-nodemodules`
+
+        const nodeModuleLambdaLayer = new aws.lambda.LayerVersion(
+            nodeModuleLambdaLayerName,
+            {
+              compatibleRuntimes: [aws.lambda.NodeJS12dXRuntime],
+              code: new pulumi.asset.FileArchive(zipFile),
+              layerName: nodeModuleLambdaLayerName
+            }
+          )
+  
+
+
+
+        new aws.lambda.Function(createTodoFunctionName, {
+            name: createTodoFunctionName,
+            runtime: aws.lambda.NodeJS12dXRuntime,
+            handler: './config/Function.handler',
+            role: executionRole.arn,
+            code,
+            memorySize: 128,
+            layers: [nodeModuleLambdaLayer.arn],
+            //code: new FileArchive('config/Function.zip')
+
+
+        })
+
+    }
+
+    relativeRootPath(path: string) {
+        return join(process.cwd(), "..", path)
+    }
+      
 
 }
