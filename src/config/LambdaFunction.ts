@@ -28,10 +28,10 @@ export class LambdaFunction {
          * Code Archive & Lambda layer
          */
         const code = new pulumi.asset.AssetArchive({
-            ".": new pulumi.asset.FileArchive("build/archive.zip")
+            ".": new pulumi.asset.FileArchive(this.relativeRootPath("build/archive.zip"))
         })
 
-        const zipFile = "layers/archive.zip"
+        const zipFile = this.relativeRootPath("layers/archive.zip")
 
         const nodeModuleLambdaLayerName = `${createTodoFunctionName}-layer-nodemodules`
 
