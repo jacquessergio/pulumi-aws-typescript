@@ -9,8 +9,8 @@ import { CustomDomain } from "./config/CustomDomain";
 import { Response } from "./config/Response"
 import { CORS } from "./config/CORS"
 import { API } from '@pulumi/awsx/apigateway';
-import { FileArchive } from '@pulumi/pulumi/asset';
-import { join } from 'path';
+import { LambdaFunction } from './config/LambdaFunction'
+import { Function } from '@pulumi/aws/lambda';
 
 export class ApiHandler {
 
@@ -19,14 +19,15 @@ export class ApiHandler {
     private eventHandler: any;
     private certificateArn: string;
     private apiData: Promise<any[] | null>;
+    private environment: any;
 
     constructor(config: any) {
         this.apiName = config.apiName;
+        this.environment = config.environment;
         this.apiData = new APIDao().query(config.revisionId);
         this.certificateArn = config.certificateArn;
         this.authorizer = this.getAuthorizer(config.authorization);
-        this.eventHandler = this.getEventHandler(config.eventHanlder);
-        this.t();
+        this.eventHandler = this.createAndGetLambdaFunction(this.getApiData());
     }
 
     public async execute() {
@@ -81,6 +82,7 @@ export class ApiHandler {
             let data: any = result[0];
             return {
                 host: data.vhost,
+                name: data.api_name,
                 environment: data.label,
                 basePath: data.context_template
             }
@@ -101,21 +103,14 @@ export class ApiHandler {
 
 
     private async setApiConfig(apiCreated: API, apiData: any) {
-
         this.setConfigGatewayResponse(apiCreated);
-
         this.setCustomDomain(apiData.host, apiCreated, apiData.basePath)
-
         this.setConfigCORS(apiCreated);
-
     }
 
     private async setConfigCORS(apiResponse: API) {
-
         const cors: CORS = new CORS(apiResponse);
-
         const paths: any[] = await this.getPathFromResources();
-
         paths.forEach(item => {
             cors.execute(item.path)
         })
@@ -134,101 +129,13 @@ export class ApiHandler {
     }
 
     private getEventHandler(lambdaName: string): any {
-
         return aws.lambda.Function.get(lambdaName, lambdaName);
     }
 
-
-
-
-    private t() {
-
-        const account = pulumi.output(aws.getCallerIdentity({ async: true })).accountId
-
-        const createTodoFunctionName = `${this.apiName}-dev-function`
-
-        /**
-         * IAM Role
-         */
-
-         const executionRoleName = `${this.apiName}-policy`;
-
-        const executionRole = new aws.iam.Role(executionRoleName, {
-            name: executionRoleName,
-            assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal({
-                Service: "lambda.amazonaws.com"
-            }),
-            tags: {
-                Environment: "dev"
-            }
-        })
-
-        const executionRolePolicyName = `${executionRoleName}-policy`;
-
-        const rolePolicy = new aws.iam.RolePolicy(executionRolePolicyName, {
-            name: executionRolePolicyName,
-            role: executionRole,
-            policy: {
-              Version: "2012-10-17",
-              Statement: [
-                {
-                  Effect: "Allow",
-                  Action: [
-                    "logs:CreateLogGroup",
-                    "logs:CreateLogStream",
-                    "logs:PutLogEvents",
-                  ],
-                  Resource: account.apply(
-                    (accountId) =>
-                      `arn:aws:logs:${aws.config.region}:${accountId}:log-group:/aws/lambda/${createTodoFunctionName}*`
-                  )
-                }
-              ]
-            }
-          })
-
-        
-        /**
-         * Code Archive & Lambda layer
-         */
-        const code = new pulumi.asset.AssetArchive({
-            ".": new pulumi.asset.FileArchive(this.relativeRootPath("build/archive.zip"))
-        })
-
-        const zipFile = this.relativeRootPath("layers/archive.zip")
-
-        const nodeModuleLambdaLayerName = `${createTodoFunctionName}-lambda-layer-nodemodules`
-
-        const nodeModuleLambdaLayer = new aws.lambda.LayerVersion(
-            nodeModuleLambdaLayerName,
-            {
-              compatibleRuntimes: [aws.lambda.NodeJS12dXRuntime],
-              code: new pulumi.asset.FileArchive(zipFile),
-              layerName: nodeModuleLambdaLayerName
-            }
-          )
-  
-
-
-
-        new aws.lambda.Function(createTodoFunctionName, {
-            name: createTodoFunctionName,
-            runtime: aws.lambda.NodeJS12dXRuntime,
-            handler: './config/Function.handler',
-            role: executionRole.arn,
-            code,
-            memorySize: 128,
-            layers: [nodeModuleLambdaLayer.arn],
-            //code: new FileArchive('config/Function.zip')
-
-
-        })
-
+    private createAndGetLambdaFunction(apiData: any): Function {
+        let lambda: LambdaFunction = new LambdaFunction(apiData);
+        return lambda.execute();
     }
 
-    relativeRootPath(path: string) {
-        return join(process.cwd(), "..", path)
-    }
-      
 
 }

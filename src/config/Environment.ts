@@ -5,17 +5,18 @@ export class Environment {
 
     public static config() {
 
-        let enviroment = new pulumi.Config();
+        let environment = new pulumi.Config();
 
-        Validator.validConfigVariables(enviroment);
+        Validator.validConfigVariables(environment);
 
         let gateway = {
-            apiName: enviroment.require("api_name"),
-            revisionId: enviroment.require("revision_id"),
-            authorization: enviroment.require("lambda_authorization"),
-            eventHanlder: enviroment.require("lambda_execution_name"),
-            pgConnectionString: enviroment.require("pg_connection_string"),
-            certificateArn: enviroment.require("certificate_arn")
+            apiName: environment.require("api_name"),
+            revisionId: environment.require("revision_id"),
+            authorization: environment.require("lambda_authorization"),
+            eventHanlder: environment.require("lambda_execution_name"),
+            pgConnectionString: environment.require("pg_connection_string"),
+            certificateArn: environment.require("certificate_arn"),
+            environment: environment.require("environment")
         }
 
         return gateway;

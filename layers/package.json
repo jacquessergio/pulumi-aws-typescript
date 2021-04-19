@@ -1,0 +1,29 @@
+{
+    "name": "aws-typescript",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/node": "^10.0.0",
+        "@types/pg": "^7.14.11"
+    },
+    "dependencies": {
+        "@pulumi/aws": "^3.25.1",
+        "@pulumi/awsx": "^0.24.0",
+        "@pulumi/pulumi": "^2.0.0",
+        "body-parser": "^1.19.0",
+        "mongoose": "^5.12.3",
+        "pg": "^8.5.1",
+        "eslint": "7.5.0",
+        "eslint-config-airbnb-base": "14.2.0",
+        "eslint-plugin-import": "2.22.0",
+        "typescript": "3.9.7",
+        "jwt-decode": "^3.1.2",
+        "node-fetch": "^2.6.0"
+    },
+    "scripts": {
+        "build": "tsc",
+        "lint": "eslint .",
+        "prepackage": "rm -rf build layers",
+        "package": "./package.sh",
+        "watch": "tsc -w"
+    }
+}

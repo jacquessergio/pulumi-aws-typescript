@@ -2,7 +2,6 @@
 
 set -o errexit # Exit on error
 CWD=$(pwd)
-chmod 777 $CWD
 BUILD_PATH_LAYERS=$CWD/layers
 cd $CWD
 
@@ -12,7 +11,7 @@ npm run build
 
 echo "zip build directory"
 cd build
-zip -q -r archive.zip functions/*
+zip -q -r archive.zip src/functions/*
 
 # Package node_modules
 mkdir -p $BUILD_PATH_LAYERS

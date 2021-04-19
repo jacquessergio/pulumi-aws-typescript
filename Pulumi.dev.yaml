@@ -1,6 +1,6 @@
 config:
-  aws-typescript:pg_connection_string: postgres://postgres:postgres@localhost:5432/WSO2AM_DB
-  #aws-typescript:pg_connection_string: postgres://postgres:postgres@172.17.0.2:5432/WSO2AM_DB
+  #aws-typescript:pg_connection_string: postgres://postgres:postgres@localhost:5432/WSO2AM_DB
+  aws-typescript:pg_connection_string: postgres://postgres:postgres@172.17.0.2:5432/WSO2AM_DB
   aws-typescript:api_name: Demo8
   aws-typescript:revision_id: 38fddc18-8da3-4040-920e-77323b312722
   aws-typescript:db_url: mongodb://localhost:27017/apis
