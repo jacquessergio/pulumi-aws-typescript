@@ -6,6 +6,7 @@ import { Role } from '@pulumi/aws/iam';
 import { Function } from '@pulumi/aws/lambda';
 import * as pulumi from "@pulumi/pulumi"
 import { join } from 'path';
+import { lowerCase } from "lower-case";
 
 export class LambdaFunction {
 
@@ -14,9 +15,9 @@ export class LambdaFunction {
     private baseUrl: string;
 
     constructor(apiData: any) {
-        this.apiName = this.lowerCase(apiData.name);
-        this.baseUrl = this.lowerCase(apiData.host);
-        this.environment = this.lowerCase(apiData.environment);
+        this.apiName = lowerCase(apiData.name);
+        this.baseUrl = lowerCase(apiData.host);
+        this.environment = lowerCase(apiData.environment);
     }
 
 
@@ -122,10 +123,6 @@ export class LambdaFunction {
 
     relativeRootPath(path: string) {
         return join(process.cwd(), "..", path)
-    }
-
-    private lowerCase(str: string): string {
-        return str.toLocaleLowerCase();
     }
 
 
