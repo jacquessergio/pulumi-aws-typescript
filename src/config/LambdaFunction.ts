@@ -125,7 +125,7 @@ export class LambdaFunction {
     }
 
     private lowerCase(str: string): string {
-        return str.toLowerCase();
+        return str.toLocaleLowerCase();
     }
 
 
