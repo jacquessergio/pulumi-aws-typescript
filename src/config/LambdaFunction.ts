@@ -125,7 +125,10 @@ export class LambdaFunction {
     }
 
     private lowerCase(str: string): string {
-        return str.toString().toLocaleLowerCase();
+
+        console.log(str)
+
+        return new String(str).toLowerCase();
     }
 
 
