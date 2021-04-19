@@ -2,7 +2,6 @@
 
 import * as aws from '@pulumi/aws';
 import * as awsx from '@pulumi/awsx';
-import * as pulumi from "@pulumi/pulumi"
 import { ApiAuthorizer } from "./config/Authorizer";
 import { APIDao } from "./dao/APIDao";
 import { CustomDomain } from "./config/CustomDomain";
@@ -11,6 +10,7 @@ import { CORS } from "./config/CORS"
 import { API } from '@pulumi/awsx/apigateway';
 import { LambdaFunction } from './config/LambdaFunction'
 import { Function } from '@pulumi/aws/lambda';
+import {proxy} from './functions/Handler'
 
 export class ApiHandler {
 
