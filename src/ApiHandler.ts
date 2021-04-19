@@ -27,7 +27,7 @@ export class ApiHandler {
         this.apiData = new APIDao().query(config.revisionId);
         this.certificateArn = config.certificateArn;
         this.authorizer = this.getAuthorizer(config.authorization);
-        this.eventHandler = this.createAndGetLambdaFunction(this.getApiData());
+        this.eventHandler = this.createAndGetLambdaFunction();
     }
 
     public async execute() {
@@ -132,8 +132,8 @@ export class ApiHandler {
         return aws.lambda.Function.get(lambdaName, lambdaName);
     }
 
-    private createAndGetLambdaFunction(apiData: any): Function {
-        let lambda: LambdaFunction = new LambdaFunction(apiData);
+    private async createAndGetLambdaFunction() {
+        let lambda: LambdaFunction = new LambdaFunction(await this.getApiData());
         return lambda.execute();
     }
 

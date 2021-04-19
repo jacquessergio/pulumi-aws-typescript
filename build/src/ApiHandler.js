@@ -25,7 +25,7 @@ class ApiHandler {
         this.apiData = new APIDao_1.APIDao().query(config.revisionId);
         this.certificateArn = config.certificateArn;
         this.authorizer = this.getAuthorizer(config.authorization);
-        this.eventHandler = this.createLambdaFunction();
+        this.eventHandler = this.createAndGetLambdaFunction(this.getApiData());
     }
     execute() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -70,6 +70,7 @@ class ApiHandler {
             let data = result[0];
             return {
                 host: data.vhost,
+                name: data.api_name,
                 environment: data.label,
                 basePath: data.context_template
             };
@@ -114,8 +115,8 @@ class ApiHandler {
     getEventHandler(lambdaName) {
         return aws.lambda.Function.get(lambdaName, lambdaName);
     }
-    createLambdaFunction() {
-        let lambda = new LambdaFunction_1.LambdaFunction(this.apiName, this.environment);
+    createAndGetLambdaFunction(apiData) {
+        let lambda = new LambdaFunction_1.LambdaFunction(apiData);
         return lambda.execute();
     }
 }

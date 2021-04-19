@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -10,20 +10,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.proxy = void 0;
-const Constants_1 = require("./Constants");
-const ResponseResourceImpl_1 = require("./ResponseResourceImpl");
-const FunctionResource_1 = require("./FunctionResource");
-const ResponseApi_1 = require("./ResponseApi");
+const Model_1 = require("./Model");
 const Config_1 = require("./Config");
+const Request_1 = require("./Request");
+const Response_1 = require("./Response");
+const Constants_1 = require("./Constants");
 exports.proxy = (event) => __awaiter(void 0, void 0, void 0, function* () {
     console.log({ event });
-    let resourceService = new ResponseResourceImpl_1.ResponseResourceImpl();
+    let resourceService = new Response_1.Response();
     try {
-        return resourceService.responseOK(yield new FunctionResource_1.ApiIntegratorResource(new Config_1.Config(event)).execute());
+        return resourceService.responseOK(yield new Request_1.Request(new Config_1.Config(event)).execute());
     }
     catch (e) {
         console.error({ e });
-        return resourceService.responseError(new ResponseApi_1.ResponseApi(Constants_1.Constants.INTERNAL_SERVER_ERROR, { error: e.message }));
+        return resourceService.responseError(new Model_1.Model(Constants_1.Constants.INTERNAL_SERVER_ERROR, { error: e.message }));
     }
 });
 //# sourceMappingURL=Handler.js.map
