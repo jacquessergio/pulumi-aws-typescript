@@ -51,16 +51,23 @@ export class CustomDomain {
 
         // Configure an edge-optimized domain for our API Gateway. This will configure a Cloudfront CDN
         // distribution behind the scenes and serve our API Gateway at a custom domain name over SSL.
-        const webDomain = new aws.apigatewayv2.DomainName("webCdn", {
-            //certificateArn: sslCertValidationIssued.certificateArn,
 
-            domainName: this.domain,
-            domainNameConfiguration: {
-                certificateArn: this.certificateArn,
-                endpointType: "REGIONAL",
-                securityPolicy: "TLS_1_2",
-            },
-        });
+        let webDomain = aws.apigatewayv2.DomainName.get("webCdn", this.domain);
+
+        if (!webDomain.id) {
+
+            webDomain = new aws.apigatewayv2.DomainName("webCdn", {
+                //certificateArn: sslCertValidationIssued.certificateArn,
+
+                domainName: this.domain,
+                domainNameConfiguration: {
+                    certificateArn: this.certificateArn,
+                    endpointType: "REGIONAL",
+                    securityPolicy: "TLS_1_2",
+                },
+            });
+        }
+
 
         const webDomainMapping = new aws.apigateway.BasePathMapping(`${this.apiName}-domain-mapping`, {
             restApi: this.resource.restAPI,

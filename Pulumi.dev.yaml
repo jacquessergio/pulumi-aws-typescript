@@ -1,8 +1,8 @@
 config:
-  #aws-typescript:pg_connection_string: postgres://postgres:postgres@localhost:5432/WSO2AM_DB
-  aws-typescript:pg_connection_string: postgres://postgres:postgres@172.17.0.2:5432/WSO2AM_DB
+  aws-typescript:pg_connection_string: postgres://postgres:postgres@localhost:5432/WSO2AM_DB
+  #aws-typescript:pg_connection_string: postgres://postgres:postgres@172.17.0.2:5432/WSO2AM_DB
   aws-typescript:api_name: Demo8
-  aws-typescript:revision_id: 52bc0db5-946d-4bed-ad8c-44bb6f15665b
+  aws-typescript:revision_id: ae2bfbe4-907f-432a-8b72-f9fb3de57acd
   aws-typescript:mg_connection_string: mongodb://localhost:27017/apis
   aws-typescript:environment: dev
   aws-typescript:certificate_arn: arn:aws:acm:us-east-1:001849918413:certificate/0f9302cc-85dd-4ccf-a00c-e6246495aa39
