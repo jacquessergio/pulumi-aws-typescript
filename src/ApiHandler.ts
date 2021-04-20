@@ -82,7 +82,7 @@ export class ApiHandler {
             let data: any = result[0];
             return {
                 host: data.vhost,
-                name: data.api_name,
+                name: new String(data.api_name).toLowerCase(),
                 environment: data.label,
                 basePath: data.context_template
             }

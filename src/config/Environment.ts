@@ -10,7 +10,7 @@ export class Environment {
         Validator.validConfigVariables(environment);
 
         let gateway = {
-            apiName: environment.require("api_name"),
+            apiName: environment.require("api_name").toLowerCase(),
             revisionId: environment.require("revision_id"),
             authorization: environment.require("lambda_authorization"),
             eventHanlder: environment.require("lambda_execution_name"),
