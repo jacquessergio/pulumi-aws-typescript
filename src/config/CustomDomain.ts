@@ -4,12 +4,14 @@ import { input } from "@pulumi/aws/types";
 
 export class CustomDomain {
 
+    private apiName: string;
     private domain: string;
     private resource: any;
     private basePath: string;
     private certificateArn: string;
 
-    constructor(domain: string, resource: any, basePath: string, certificateArn: string) {
+    constructor(apiName: string, domain: string, resource: any, basePath: string, certificateArn: string) {
+        this.apiName = apiName;
         this.domain = domain;
         this.resource = resource;
         this.basePath = basePath;
@@ -60,7 +62,7 @@ export class CustomDomain {
             },
         });
 
-        const webDomainMapping = new aws.apigateway.BasePathMapping("webDomainMapping", {
+        const webDomainMapping = new aws.apigateway.BasePathMapping(`${this.apiName}-domain-mapping`, {
             restApi: this.resource.restAPI,
             stageName: this.resource.stage.stageName,
             basePath: this.basePath,

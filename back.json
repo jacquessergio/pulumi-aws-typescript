@@ -1,0 +1,480 @@
+{
+    "version": 3,
+    "deployment": {
+        "manifest": {
+            "time": "2021-04-20T16:42:39.1789105-03:00",
+            "magic": "0717139767a548671751877f5c18a4774b31225894f73a2d2728577f61d505f5",
+            "version": "v2.24.1"
+        },
+        "secrets_providers": {
+            "type": "service",
+            "state": {
+                "url": "https://api.pulumi.com",
+                "owner": "jacquessergio",
+                "project": "aws-typescript",
+                "stack": "dev"
+            }
+        },
+        "resources": [
+            {
+                "urn": "urn:pulumi:dev::aws-typescript::pulumi:pulumi:Stack::aws-typescript-dev",
+                "custom": false,
+                "type": "pulumi:pulumi:Stack",
+                "outputs": {
+                    "res": "urn:pulumi:dev::aws-typescript::aws:apigateway:x:API::Demo15"
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::aws-typescript::pulumi:providers:aws::default_3_36_0",
+                "custom": true,
+                "id": "8faf687e-2c77-466b-82e2-58615e0332fe",
+                "type": "pulumi:providers:aws",
+                "inputs": {
+                    "region": "us-east-1",
+                    "version": "3.36.0"
+                },
+                "outputs": {
+                    "region": "us-east-1",
+                    "version": "3.36.0"
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::aws-typescript::aws:lambda/function:Function::api-auth-dev-authorization",
+                "custom": true,
+                "id": "api-auth-dev-authorization",
+                "type": "aws:lambda/function:Function",
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":600000000000}}",
+                    "arn": "arn:aws:lambda:us-east-1:001849918413:function:api-auth-dev-authorization",
+                    "codeSigningConfigArn": "",
+                    "deadLetterConfig": null,
+                    "description": "",
+                    "environment": {
+                        "variables": {
+                            "host": "http://devapilogin.lpsbr.com",
+                            "stage": "dev"
+                        }
+                    },
+                    "fileSystemConfig": null,
+                    "handler": "br.com.lopesdigital.auth.handlers.AuthorizerHandler",
+                    "id": "api-auth-dev-authorization",
+                    "imageConfig": null,
+                    "imageUri": "",
+                    "invokeArn": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:001849918413:function:api-auth-dev-authorization/invocations",
+                    "kmsKeyArn": "",
+                    "lastModified": "2020-11-13T18:01:14.642+0000",
+                    "layers": [],
+                    "memorySize": 1024,
+                    "name": "api-auth-dev-authorization",
+                    "packageType": "Zip",
+                    "qualifiedArn": "arn:aws:lambda:us-east-1:001849918413:function:api-auth-dev-authorization:38",
+                    "reservedConcurrentExecutions": -1,
+                    "role": "arn:aws:iam::001849918413:role/service-role/simple-lambda-role",
+                    "runtime": "java8",
+                    "signingJobArn": "",
+                    "signingProfileVersionArn": "",
+                    "sourceCodeHash": "Qi5Y2BnN52WroKiAIm2XlIh7pggmUTfb6yaxp37mj7E=",
+                    "sourceCodeSize": 16330463,
+                    "tags": {
+                        "STAGE": "dev"
+                    },
+                    "timeout": 30,
+                    "tracingConfig": {
+                        "mode": "PassThrough"
+                    },
+                    "version": "38",
+                    "vpcConfig": {
+                        "securityGroupIds": [
+                            "sg-0dc6552f1daf8d6a2"
+                        ],
+                        "subnetIds": [
+                            "subnet-00decaaded4058bcf",
+                            "subnet-021b5219bf449d941"
+                        ],
+                        "vpcId": "vpc-0b03c777b2b86c87b"
+                    }
+                },
+                "parent": "urn:pulumi:dev::aws-typescript::pulumi:pulumi:Stack::aws-typescript-dev",
+                "external": true,
+                "provider": "urn:pulumi:dev::aws-typescript::pulumi:providers:aws::default_3_36_0::8faf687e-2c77-466b-82e2-58615e0332fe"
+            },
+            {
+                "urn": "urn:pulumi:dev::aws-typescript::aws:iam/role:Role::demo15-role",
+                "custom": true,
+                "id": "demo15-role",
+                "type": "aws:iam/role:Role",
+                "inputs": {
+                    "__defaults": [
+                        "forceDetachPolicies",
+                        "maxSessionDuration",
+                        "path"
+                    ],
+                    "assumeRolePolicy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"},\"Sid\":\"AllowAssumeRole\"}],\"Version\":\"2012-10-17\"}",
+                    "forceDetachPolicies": false,
+                    "maxSessionDuration": 3600,
+                    "name": "demo15-role",
+                    "path": "/",
+                    "tags": {
+                        "Environment": "dev",
+                        "__defaults": []
+                    }
+                },
+                "outputs": {
+                    "arn": "arn:aws:iam::001849918413:role/demo15-role",
+                    "assumeRolePolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"AllowAssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}",
+                    "createDate": "2021-04-20T18:49:42Z",
+                    "description": "",
+                    "forceDetachPolicies": false,
+                    "id": "demo15-role",
+                    "inlinePolicies": [
+                        {
+                            "name": "",
+                            "policy": ""
+                        }
+                    ],
+                    "managedPolicyArns": [],
+                    "maxSessionDuration": 3600,
+                    "name": "demo15-role",
+                    "path": "/",
+                    "tags": {
+                        "Environment": "dev"
+                    },
+                    "uniqueId": "AROAQA3SDQPGQ3EXQSHKR"
+                },
+                "parent": "urn:pulumi:dev::aws-typescript::pulumi:pulumi:Stack::aws-typescript-dev",
+                "provider": "urn:pulumi:dev::aws-typescript::pulumi:providers:aws::default_3_36_0::8faf687e-2c77-466b-82e2-58615e0332fe",
+                "propertyDependencies": {
+                    "assumeRolePolicy": null,
+                    "name": null,
+                    "tags": null
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::aws-typescript::aws:apigatewayv2/domainName:DomainName::webCdn",
+                "custom": true,
+                "id": "apidev.lpsbr.com",
+                "type": "aws:apigatewayv2/domainName:DomainName",
+                "inputs": {
+                    "__defaults": [],
+                    "domainName": "apidev.lpsbr.com",
+                    "domainNameConfiguration": {
+                        "__defaults": [],
+                        "certificateArn": "arn:aws:acm:us-east-1:001849918413:certificate/0f9302cc-85dd-4ccf-a00c-e6246495aa39",
+                        "endpointType": "REGIONAL",
+                        "securityPolicy": "TLS_1_2"
+                    }
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":600000000000,\"update\":3600000000000}}",
+                    "apiMappingSelectionExpression": "$request.basepath",
+                    "arn": "arn:aws:apigateway:us-east-1::/domainnames/apidev.lpsbr.com",
+                    "domainName": "apidev.lpsbr.com",
+                    "domainNameConfiguration": {
+                        "certificateArn": "arn:aws:acm:us-east-1:001849918413:certificate/0f9302cc-85dd-4ccf-a00c-e6246495aa39",
+                        "endpointType": "REGIONAL",
+                        "hostedZoneId": "Z1UJRXOUMOOFQ8",
+                        "securityPolicy": "TLS_1_2",
+                        "targetDomainName": "d-iy8n1g5d9i.execute-api.us-east-1.amazonaws.com"
+                    },
+                    "id": "apidev.lpsbr.com",
+                    "mutualTlsAuthentication": null,
+                    "tags": {}
+                },
+                "parent": "urn:pulumi:dev::aws-typescript::pulumi:pulumi:Stack::aws-typescript-dev",
+                "provider": "urn:pulumi:dev::aws-typescript::pulumi:providers:aws::default_3_36_0::8faf687e-2c77-466b-82e2-58615e0332fe",
+                "propertyDependencies": {
+                    "domainName": null,
+                    "domainNameConfiguration": null
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::aws-typescript::aws:iam/rolePolicy:RolePolicy::demo15-role-policy",
+                "custom": true,
+                "id": "demo15-role:demo15-role-policy",
+                "type": "aws:iam/rolePolicy:RolePolicy",
+                "inputs": {
+                    "__defaults": [],
+                    "name": "demo15-role-policy",
+                    "policy": "{\"Statement\":[{\"Action\":[\"logs:CreateLogGroup\",\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:logs:us-east-1:001849918413:log-group:/aws/lambda/proxy-demo15-dev-function*\"}],\"Version\":\"2012-10-17\"}",
+                    "role": "demo15-role"
+                },
+                "outputs": {
+                    "id": "demo15-role:demo15-role-policy",
+                    "name": "demo15-role-policy",
+                    "policy": "{\"Statement\":[{\"Action\":[\"logs:CreateLogGroup\",\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:logs:us-east-1:001849918413:log-group:/aws/lambda/proxy-demo15-dev-function*\"}],\"Version\":\"2012-10-17\"}",
+                    "role": "demo15-role"
+                },
+                "parent": "urn:pulumi:dev::aws-typescript::pulumi:pulumi:Stack::aws-typescript-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::aws-typescript::aws:iam/role:Role::demo15-role"
+                ],
+                "provider": "urn:pulumi:dev::aws-typescript::pulumi:providers:aws::default_3_36_0::8faf687e-2c77-466b-82e2-58615e0332fe",
+                "propertyDependencies": {
+                    "name": null,
+                    "policy": null,
+                    "role": [
+                        "urn:pulumi:dev::aws-typescript::aws:iam/role:Role::demo15-role"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::aws-typescript::aws:lambda/layerVersion:LayerVersion::proxy-demo15-dev-function-layer-nodemodules",
+                "custom": true,
+                "id": "arn:aws:lambda:us-east-1:001849918413:layer:proxy-demo15-dev-function-layer-nodemodules:1",
+                "type": "aws:lambda/layerVersion:LayerVersion",
+                "inputs": {
+                    "__defaults": [],
+                    "code": {
+                        "4dabf18193072939515e22adb298388d": "0def7320c3a5731c473e5ecbe6d01bc7",
+                        "hash": "d6fd2535d0f473f49bb206b64e9a2ee0c531e56baba646cf18d6ee5772f3f503",
+                        "path": "layers/archive.zip"
+                    },
+                    "compatibleRuntimes": [
+                        "nodejs12.x"
+                    ],
+                    "layerName": "proxy-demo15-dev-function-layer-nodemodules"
+                },
+                "outputs": {
+                    "arn": "arn:aws:lambda:us-east-1:001849918413:layer:proxy-demo15-dev-function-layer-nodemodules:1",
+                    "code": {
+                        "4dabf18193072939515e22adb298388d": "0def7320c3a5731c473e5ecbe6d01bc7",
+                        "hash": "d6fd2535d0f473f49bb206b64e9a2ee0c531e56baba646cf18d6ee5772f3f503",
+                        "path": "layers/archive.zip"
+                    },
+                    "compatibleRuntimes": [
+                        "nodejs12.x"
+                    ],
+                    "createdDate": "2021-04-20T18:50:11.476+0000",
+                    "description": "",
+                    "id": "arn:aws:lambda:us-east-1:001849918413:layer:proxy-demo15-dev-function-layer-nodemodules:1",
+                    "layerArn": "arn:aws:lambda:us-east-1:001849918413:layer:proxy-demo15-dev-function-layer-nodemodules",
+                    "layerName": "proxy-demo15-dev-function-layer-nodemodules",
+                    "licenseInfo": "",
+                    "signingJobArn": "",
+                    "signingProfileVersionArn": "",
+                    "sourceCodeHash": "1v0lNdD0c/Sbsga2Tpou4MUx5WurpkbPGNbuV3Lz9QM=",
+                    "sourceCodeSize": 44811716,
+                    "version": "1"
+                },
+                "parent": "urn:pulumi:dev::aws-typescript::pulumi:pulumi:Stack::aws-typescript-dev",
+                "provider": "urn:pulumi:dev::aws-typescript::pulumi:providers:aws::default_3_36_0::8faf687e-2c77-466b-82e2-58615e0332fe",
+                "propertyDependencies": {
+                    "code": null,
+                    "compatibleRuntimes": null,
+                    "layerName": null
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::aws-typescript::aws:lambda/function:Function::proxy-demo15-dev-function",
+                "custom": true,
+                "id": "proxy-demo15-dev-function",
+                "type": "aws:lambda/function:Function",
+                "inputs": {
+                    "__defaults": [
+                        "packageType",
+                        "publish",
+                        "reservedConcurrentExecutions",
+                        "timeout"
+                    ],
+                    "code": {
+                        "4dabf18193072939515e22adb298388d": "0def7320c3a5731c473e5ecbe6d01bc7",
+                        "assets": {
+                            ".": {
+                                "4dabf18193072939515e22adb298388d": "0def7320c3a5731c473e5ecbe6d01bc7",
+                                "hash": "2c6af66d2aedc1c19002be490591926db5888ce910a57d913cf464937c626311",
+                                "path": "build/archive.zip"
+                            }
+                        },
+                        "hash": "0fc9799e6d5c02c3eaa9907f37f2f530b2955ce66f7dff9684592a37a82f2f62"
+                    },
+                    "environment": {
+                        "__defaults": [],
+                        "variables": {
+                            "__defaults": [],
+                            "base_url": "apidev.lpsbr.com",
+                            "stage": "dev"
+                        }
+                    },
+                    "handler": "./src/functions/Handler.proxy",
+                    "layers": [
+                        "arn:aws:lambda:us-east-1:001849918413:layer:proxy-demo15-dev-function-layer-nodemodules:1"
+                    ],
+                    "memorySize": 1024,
+                    "name": "proxy-demo15-dev-function",
+                    "packageType": "Zip",
+                    "publish": false,
+                    "reservedConcurrentExecutions": -1,
+                    "role": "arn:aws:iam::001849918413:role/demo15-role",
+                    "runtime": "nodejs12.x",
+                    "tags": {
+                        "Environment": "dev",
+                        "Name": "proxy-demo15-dev-function",
+                        "__defaults": []
+                    },
+                    "timeout": 3
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":600000000000}}",
+                    "arn": "arn:aws:lambda:us-east-1:001849918413:function:proxy-demo15-dev-function",
+                    "code": {
+                        "4dabf18193072939515e22adb298388d": "0def7320c3a5731c473e5ecbe6d01bc7",
+                        "assets": {
+                            ".": {
+                                "4dabf18193072939515e22adb298388d": "0def7320c3a5731c473e5ecbe6d01bc7",
+                                "hash": "2c6af66d2aedc1c19002be490591926db5888ce910a57d913cf464937c626311",
+                                "path": "build/archive.zip"
+                            }
+                        },
+                        "hash": "0fc9799e6d5c02c3eaa9907f37f2f530b2955ce66f7dff9684592a37a82f2f62"
+                    },
+                    "codeSigningConfigArn": "",
+                    "deadLetterConfig": null,
+                    "description": "",
+                    "environment": {
+                        "variables": {
+                            "base_url": "apidev.lpsbr.com",
+                            "stage": "dev"
+                        }
+                    },
+                    "fileSystemConfig": null,
+                    "handler": "./src/functions/Handler.proxy",
+                    "id": "proxy-demo15-dev-function",
+                    "imageConfig": null,
+                    "imageUri": "",
+                    "invokeArn": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:001849918413:function:proxy-demo15-dev-function/invocations",
+                    "kmsKeyArn": "",
+                    "lastModified": "2021-04-20T18:50:13.318+0000",
+                    "layers": [
+                        "arn:aws:lambda:us-east-1:001849918413:layer:proxy-demo15-dev-function-layer-nodemodules:1"
+                    ],
+                    "memorySize": 1024,
+                    "name": "proxy-demo15-dev-function",
+                    "packageType": "Zip",
+                    "publish": false,
+                    "qualifiedArn": "arn:aws:lambda:us-east-1:001849918413:function:proxy-demo15-dev-function:$LATEST",
+                    "reservedConcurrentExecutions": -1,
+                    "role": "arn:aws:iam::001849918413:role/demo15-role",
+                    "runtime": "nodejs12.x",
+                    "signingJobArn": "",
+                    "signingProfileVersionArn": "",
+                    "sourceCodeHash": "grPZN57uPxiMlU7C0aGGO11MQgmjZq1BSao5/AeJy2A=",
+                    "sourceCodeSize": 10809,
+                    "tags": {
+                        "Environment": "dev",
+                        "Name": "proxy-demo15-dev-function"
+                    },
+                    "timeout": 3,
+                    "tracingConfig": {
+                        "mode": "PassThrough"
+                    },
+                    "version": "$LATEST",
+                    "vpcConfig": null
+                },
+                "parent": "urn:pulumi:dev::aws-typescript::pulumi:pulumi:Stack::aws-typescript-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::aws-typescript::aws:lambda/layerVersion:LayerVersion::proxy-demo15-dev-function-layer-nodemodules",
+                    "urn:pulumi:dev::aws-typescript::aws:iam/role:Role::demo15-role"
+                ],
+                "provider": "urn:pulumi:dev::aws-typescript::pulumi:providers:aws::default_3_36_0::8faf687e-2c77-466b-82e2-58615e0332fe",
+                "propertyDependencies": {
+                    "code": null,
+                    "environment": null,
+                    "handler": null,
+                    "layers": [
+                        "urn:pulumi:dev::aws-typescript::aws:lambda/layerVersion:LayerVersion::proxy-demo15-dev-function-layer-nodemodules"
+                    ],
+                    "memorySize": null,
+                    "name": null,
+                    "role": [
+                        "urn:pulumi:dev::aws-typescript::aws:iam/role:Role::demo15-role"
+                    ],
+                    "runtime": null,
+                    "tags": null
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::aws-typescript::aws:apigateway/basePathMapping:BasePathMapping::webDomainMapping",
+                "custom": true,
+                "id": "apidev.lpsbr.com/demo",
+                "type": "aws:apigateway/basePathMapping:BasePathMapping",
+                "inputs": {
+                    "__defaults": [],
+                    "basePath": "demo",
+                    "domainName": "apidev.lpsbr.com",
+                    "restApi": "lqzvslr577",
+                    "stageName": "dev"
+                },
+                "outputs": {
+                    "basePath": "demo",
+                    "domainName": "apidev.lpsbr.com",
+                    "id": "apidev.lpsbr.com/demo",
+                    "restApi": "lqzvslr577",
+                    "stageName": "dev"
+                },
+                "parent": "urn:pulumi:dev::aws-typescript::pulumi:pulumi:Stack::aws-typescript-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::aws-typescript::aws:apigatewayv2/domainName:DomainName::webCdn"
+                ],
+                "provider": "urn:pulumi:dev::aws-typescript::pulumi:providers:aws::default_3_36_0::8faf687e-2c77-466b-82e2-58615e0332fe",
+                "propertyDependencies": {
+                    "basePath": null,
+                    "domainName": [
+                        "urn:pulumi:dev::aws-typescript::aws:apigatewayv2/domainName:DomainName::webCdn"
+                    ],
+                    "restApi": [
+                        "urn:pulumi:dev::aws-typescript::aws:apigateway:x:API$aws:apigateway/restApi:RestApi::Demo15"
+                    ],
+                    "stageName": [
+                        "urn:pulumi:dev::aws-typescript::aws:apigateway:x:API$aws:apigateway/stage:Stage::Demo15"
+                    ]
+                }
+            }
+        ],
+        "pending_operations": [
+            {
+                "resource": {
+                    "urn": "urn:pulumi:dev::aws-typescript::aws:apigateway:x:API$aws:lambda/permission:Permission::Demo15-81d48527",
+                    "custom": true,
+                    "id": "Demo15-81d48527-5624fdd",
+                    "type": "aws:lambda/permission:Permission",
+                    "inputs": {
+                        "__defaults": [
+                            "statementId"
+                        ],
+                        "action": "lambda:invokeFunction",
+                        "function": "proxy-demo15-dev-function",
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": "arn:aws:execute-api:us-east-1:001849918413:lqzvslr577/*/GET/v1/pororoca",
+                        "statementId": "Demo15-81d48527-5624fdd"
+                    },
+                    "outputs": {
+                        "action": "lambda:invokeFunction",
+                        "function": "proxy-demo15-dev-function",
+                        "id": "Demo15-81d48527-5624fdd",
+                        "principal": "apigateway.amazonaws.com",
+                        "qualifier": "",
+                        "sourceArn": "arn:aws:execute-api:us-east-1:001849918413:lqzvslr577/*/GET/v1/pororoca",
+                        "statementId": "Demo15-81d48527-5624fdd"
+                    },
+                    "parent": "urn:pulumi:dev::aws-typescript::aws:apigateway:x:API::Demo15",
+                    "dependencies": [
+                        "urn:pulumi:dev::aws-typescript::aws:lambda/function:Function::proxy-demo15-dev-function",
+                        "urn:pulumi:dev::aws-typescript::aws:apigateway:x:API$aws:apigateway/deployment:Deployment::Demo15"
+                    ],
+                    "provider": "urn:pulumi:dev::aws-typescript::pulumi:providers:aws::default_3_36_0::8faf687e-2c77-466b-82e2-58615e0332fe",
+                    "propertyDependencies": {
+                        "action": null,
+                        "function": [
+                            "urn:pulumi:dev::aws-typescript::aws:lambda/function:Function::proxy-demo15-dev-function"
+                        ],
+                        "principal": null,
+                        "sourceArn": [
+                            "urn:pulumi:dev::aws-typescript::aws:apigateway:x:API$aws:apigateway/deployment:Deployment::Demo15"
+                        ]
+                    }
+                },
+                "type": "deleting"
+            }
+        ]
+    }
+}

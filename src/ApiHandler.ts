@@ -105,7 +105,7 @@ export class ApiHandler {
     private async setApiConfig(apiCreated: API) {
         const apiData = await this.getApiData()
         this.setConfigGatewayResponse(apiCreated);
-        this.setCustomDomain(apiData.host, apiCreated, apiData.basePath)
+        this.setCustomDomain(apiData, apiCreated)   
         this.setConfigCORS(apiCreated);
     }
 
@@ -121,8 +121,8 @@ export class ApiHandler {
         new Response(api).execute();
     }
 
-    private setCustomDomain(url: string, api: any, basePath: string): void {
-        new CustomDomain(url, api, basePath.replace('/', ''), this.certificateArn).execute();
+    private setCustomDomain(apiData: any, apiCreated: any): void {       
+        new CustomDomain(apiData.name, apiData.host, apiCreated, apiData.basePath.replace('/', ''), this.certificateArn).execute();
     }
 
     private getAuthorizer(authorizerName: string) {
