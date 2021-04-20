@@ -27,17 +27,14 @@ export class ApiHandler {
         this.apiData = new APIDao().query(config.revisionId);
         this.certificateArn = config.certificateArn;
         this.authorizer = this.getAuthorizer(config.authorization);
-        this.eventHandler = this.createAndGetLambdaFunction();
     }
 
     public async execute() {
 
-        const data = await this.getApiData()
-
         let apiCreated: API = new awsx.apigateway.API(this.apiName, {
             requestValidator: 'PARAMS_ONLY',
             routes: await this.getRoutesTemplate(),
-            stageName: data.environment,
+            stageName: this.environment,
             restApiArgs: {
                 description: `Description for api ${this.apiName}`,
                 endpointConfiguration: {
@@ -46,14 +43,17 @@ export class ApiHandler {
             }
 
         });
-        this.setApiConfig(apiCreated, data);
+        this.setApiConfig(apiCreated);
 
         return apiCreated.urn;
     }
 
 
-    private getRoutesTemplate() {
+    private async getRoutesTemplate() {
         let reources: any = [];
+        
+        this.eventHandler = await this.createAndGetLambdaFunction();
+        
         return this.apiData.then(resource => {
             resource?.forEach(item => {
                 let isAuth: boolean = true;
@@ -102,7 +102,8 @@ export class ApiHandler {
 
 
 
-    private async setApiConfig(apiCreated: API, apiData: any) {
+    private async setApiConfig(apiCreated: API) {
+        const apiData = await this.getApiData()
         this.setConfigGatewayResponse(apiCreated);
         this.setCustomDomain(apiData.host, apiCreated, apiData.basePath)
         this.setConfigCORS(apiCreated);

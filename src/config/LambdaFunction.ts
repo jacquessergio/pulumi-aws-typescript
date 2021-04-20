@@ -15,6 +15,7 @@ export class LambdaFunction {
     private baseUrl: string;
 
     constructor(apiData: any) {
+        console.log(apiData);
         this.apiName = lowerCase(apiData.name);
         this.baseUrl = lowerCase(apiData.host);
         this.environment = lowerCase(apiData.environment);
@@ -25,9 +26,6 @@ export class LambdaFunction {
 
         const createTodoFunctionName = `proxy-${this.apiName}-${this.environment}-function`
 
-        /**
-         * Code Archive & Lambda layer
-         */
         const code = new pulumi.asset.AssetArchive({
             ".": new pulumi.asset.FileArchive("build/archive.zip")
         })
@@ -124,10 +122,5 @@ export class LambdaFunction {
     relativeRootPath(path: string) {
         return join(process.cwd(), "..", path)
     }
-
-    private lowerCase(str: string): string {
-        return str.toString().toLocaleLowerCase();
-    }
-
 
 }
