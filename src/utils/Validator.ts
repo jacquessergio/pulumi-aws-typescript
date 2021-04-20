@@ -10,7 +10,7 @@ export class Validator {
         if (config.require("lambda_execution_name") == null || config.require("lambda_execution_name") == undefined) {
             throw new Error("Lambda execution Name - cannot be null!");
         }
-        if (config.require("db_url") == null || config.require("db_url") == undefined) {
+        if (config.require("mg_connection_string") == null || config.require("mg_connection_string") == undefined) {
             throw new Error("Database URL - cannot be null!");
         }
         if (config.require("revision_id") == null || config.require("revision_id") == undefined) {
