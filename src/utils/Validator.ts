@@ -7,9 +7,6 @@ export class Validator {
         if (config.require("lambda_authorization") == null || config.require("lambda_authorization") == undefined) {
             throw new Error("Lambda authorization Name cannot be null!");
         }
-        if (config.require("lambda_execution_name") == null || config.require("lambda_execution_name") == undefined) {
-            throw new Error("Lambda execution Name - cannot be null!");
-        }
         if (config.require("mg_connection_string") == null || config.require("mg_connection_string") == undefined) {
             throw new Error("Database URL - cannot be null!");
         }

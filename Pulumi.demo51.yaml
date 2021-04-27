@@ -1,0 +1,12 @@
+config:
+  aws-typescript:action: refresh
+  aws-typescript:api_name: demo51
+  aws-typescript:certificate_arn: arn:aws:acm:us-east-1:001849918413:certificate/0f9302cc-85dd-4ccf-a00c-e6246495aa39
+  aws-typescript:environment: dev
+  aws-typescript:lambda_authorization: api-auth-dev-authorization
+  aws-typescript:lambda_execution_name: proxy
+  aws-typescript:mg_connection_string: mongodb://localhost:27017/apis
+  aws-typescript:pg_connection_string: postgres://postgres:postgres@localhost:5432/WSO2AM_DB
+  #aws-typescript:pg_connection_string: postgres://postgres:postgres@172.17.0.2:5432/WSO2AM_DB
+  aws-typescript:revision_id: 6bf3127a-c61e-4dea-9654-d01e9d2d4311
+  aws:region: us-east-1

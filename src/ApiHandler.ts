@@ -22,6 +22,7 @@ export class ApiHandler {
     private environment: any;
 
     constructor(config: any) {
+        
         this.apiName = config.apiName;
         this.environment = config.environment;
         this.apiData = new APIDao().query(config.revisionId);
@@ -30,8 +31,8 @@ export class ApiHandler {
     }
 
     public async execute() {
-
-        let apiCreated: API = new awsx.apigateway.API(this.apiName, {
+      
+        let apiCreated: API = new awsx.apigateway.API(`${this.apiName}`, {
             requestValidator: 'PARAMS_ONLY',
             routes: await this.getRoutesTemplate(),
             stageName: this.environment,
@@ -82,7 +83,7 @@ export class ApiHandler {
             let data: any = result[0];
             return {
                 host: data.vhost,
-                name: new String(data.api_name).toLowerCase(),
+                name: data.api_name,
                 environment: data.label,
                 basePath: data.context_template
             }
@@ -122,7 +123,7 @@ export class ApiHandler {
     }
 
     private setCustomDomain(apiData: any, apiCreated: any): void {       
-        new CustomDomain(apiData.name, apiData.host, apiCreated, apiData.basePath.replace('/', ''), this.certificateArn).execute();
+        new CustomDomain(apiData.name, apiData.host, apiCreated, apiData.basePath.replace('/', ''), this.certificateArn, this.environment).execute();
     }
 
     private getAuthorizer(authorizerName: string) {
