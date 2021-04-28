@@ -13,7 +13,6 @@ export class Environment {
             apiName: environment.require("api_name").toLowerCase(),
             revisionId: environment.require("revision_id"),
             authorization: environment.require("lambda_authorization"),
-            eventHanlder: environment.require("lambda_execution_name"),
             pgConnectionString: environment.require("pg_connection_string"),
             certificateArn: environment.require("certificate_arn"),
             environment: environment.require("environment")
