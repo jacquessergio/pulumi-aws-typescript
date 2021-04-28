@@ -3,7 +3,7 @@ import pool from "../config/PgConnection";
 export class APIDao {
 
 
-    public async query(revisionId: string) {
+    public async query(apiId: string) {
 
         try {
             let client = await pool.connect();
@@ -19,13 +19,11 @@ export class APIDao {
                             RS.http_method,
                             RS.url_pattern,
                             RS.auth_scheme,
-                            RS.throttling_tier,
-                            GW.vhost,
-                            GW.label
+                            RS.throttling_tier
                         FROM am_api_url_mapping RS 
-                                INNER JOIN am_gw_api_deployments GW ON (GW.revision_id = RS.revision_uuid) 
-                                INNER JOIN am_api AP ON (AP.api_uuid = GW.api_id) 
-                        WHERE GW.revision_id = '${revisionId}'`;
+                                INNER JOIN am_revision GW ON (GW.revision_uuid = RS.revision_uuid) 
+                                INNER JOIN am_api AP ON (AP.api_uuid = GW.api_uuid) 
+                        WHERE GW.api_uuid = '${apiId}'`;
 
             const { rows } = await client.query(sql);
 

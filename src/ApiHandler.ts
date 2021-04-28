@@ -19,13 +19,14 @@ export class ApiHandler {
     private eventHandler: any;
     private certificateArn: string;
     private apiData: Promise<any[] | null>;
-    private environment: any;
+    private environment: string;
+    private vhost: string;
 
     constructor(config: any) {
-        
+        this.vhost = config.vhost;
         this.apiName = config.apiName;
         this.environment = config.environment;
-        this.apiData = new APIDao().query(config.revisionId);
+        this.apiData = new APIDao().query(config.apiId);
         this.certificateArn = config.certificateArn;
         this.authorizer = this.getAuthorizer(config.authorization);
     }
@@ -82,9 +83,9 @@ export class ApiHandler {
         return this.apiData.then((result: any) => {
             let data: any = result[0];
             return {
-                host: data.vhost,
-                name: data.api_name,
-                environment: data.label,
+                host: this.vhost,
+                name: this.apiName,
+                environment: this.environment,
                 basePath: data.context_template
             }
         });
