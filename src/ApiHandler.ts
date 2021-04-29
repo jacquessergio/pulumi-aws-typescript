@@ -63,8 +63,8 @@ export class ApiHandler {
                 if (item.auth_scheme == 'None') {
                     isAuth = false;
                 }
-
-                const path = item.api_version + item.url_pattern;
+                
+                const path = item.api_version + item.url_pattern.replace('/*', '');
 
                 reources.push({
                     path: path,
