@@ -12,6 +12,7 @@ import { LambdaFunction } from './config/LambdaFunction'
 import { Function } from '@pulumi/aws/lambda';
 import {proxy} from './functions/Handler'
 
+
 export class ApiHandler {
 
     private apiName: string;
@@ -26,7 +27,7 @@ export class ApiHandler {
         this.vhost = config.vhost;
         this.apiName = config.apiName;
         this.environment = config.environment;
-        this.apiData = new APIDao().query(config.apiId);
+        this.apiData = new APIDao().query(config.revisionId);
         this.certificateArn = config.certificateArn;
         this.authorizer = this.getAuthorizer(config.authorization);
     }
@@ -52,7 +53,7 @@ export class ApiHandler {
 
 
     private async getRoutesTemplate() {
-        let reources: any = [];
+        let resources: any = [];
         
         this.eventHandler = await this.createAndGetLambdaFunction();
         
@@ -63,10 +64,14 @@ export class ApiHandler {
                 if (item.auth_scheme == 'None') {
                     isAuth = false;
                 }
-                
-                const path = item.api_version + item.url_pattern.replace('/*', '');
 
-                reources.push({
+                const path = item.api_version + item.url_pattern;
+               
+                if(item.url_pattern == '/*') {
+                    throw new Error('Invalid path -> ' + path) 
+                }
+
+                resources.push({
                     path: path,
                     method: item.http_method,
                     eventHandler: this.eventHandler,
@@ -74,7 +79,7 @@ export class ApiHandler {
                     requiredParameters: (isAuth == false) ? [] : [{ name: "Authorization", in: "header" }]
                 })
             })
-            return reources;
+            return resources;
         })
     }
 
