@@ -7,19 +7,20 @@ import { API } from '@pulumi/awsx/apigateway';
 export class CORS {
 
     private restApiId: any;
- 
+
     constructor(api: API) {
         this.restApiId = api.restAPI.id;
     }
 
+    private buildApiMethodName(path: any) {
+        return this.replaceAll(this.replaceAll(path, '/', '-'), '[^a-zA-Z0-9-]+', '');
+    }
 
-    public execute(path: string) {
-
-        const name = path.replace('/', '-');
-
+    public execute(path: any) {
+        const name = this.buildApiMethodName(path);
         const resource = this.restApiId.apply((resolvedId: any) =>
             aws.apigateway.getResource({
-                path: '/' + path,
+                path: path,
                 restApiId: resolvedId,
             }),
         );
@@ -79,4 +80,9 @@ export class CORS {
         );
 
     }
+
+    private replaceAll(str: string, find: string, replace: string) {
+        return str.replace(new RegExp(find, 'g'), replace);
+    }
+
 }

@@ -65,7 +65,7 @@ export class ApiHandler {
                     isAuth = false;
                 }
 
-                const path = item.url_pattern;
+                const path = item.url_pattern.toLowerCase();
                
                 if(item.url_pattern == '/*') {
                     throw new Error('Invalid path -> ' + path) 
@@ -79,6 +79,7 @@ export class ApiHandler {
                     requiredParameters: (isAuth == false) ? [] : [{ name: "Authorization", in: "header" }]
                 })
             })
+
             return resources;
         })
     }
@@ -99,9 +100,7 @@ export class ApiHandler {
         return this.apiData.then((result: any) => {
             let reources: any = [];
             result.forEach((resource: any) => {
-                reources.push({
-                    path: resource.api_version + resource.url_pattern
-                })
+                reources.push(resource.url_pattern.toLowerCase())
             });
             return reources;
         });
@@ -118,9 +117,10 @@ export class ApiHandler {
 
     private async setConfigCORS(apiResponse: API) {
         const cors: CORS = new CORS(apiResponse);
-        const paths: any[] = await this.getPathFromResources();
-        paths.forEach(item => {
-            cors.execute(item.path)
+        const paths: any[] = await this.getPathFromResources();       
+        const resources = [...new Set(paths)]
+        resources.forEach(path => {
+            cors.execute(path)
         })
     }
 

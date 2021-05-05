@@ -1,0 +1,11 @@
+config:
+  aws-typescript:api_id: 06b459cf-983e-4cf3-9729-3fd60e3fe852
+  aws-typescript:api_name: portalbi-api
+  aws-typescript:certificate_arn: arn:aws:acm:us-east-1:001849918413:certificate/0f9302cc-85dd-4ccf-a00c-e6246495aa39
+  aws-typescript:environment: dev
+  aws-typescript:lambda_authorization: api-auth-dev-authorization
+  aws-typescript:mg_connection_string: mongodb://localhost:27017/apis
+  aws-typescript:pg_connection_string: postgres://postgres:postgres@localhost:5432/WSO2AM_DB
+  aws-typescript:revision_id: c2cbdffe-41f7-4503-b8b3-075ac09d7e6b
+  aws-typescript:vhost: apidev.lpsbr.com
+  aws:region: us-east-1
