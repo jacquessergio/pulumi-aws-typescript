@@ -65,7 +65,7 @@ export class ApiHandler {
                     isAuth = false;
                 }
 
-                const path = item.http_method + item.url_pattern;
+                const path = item.url_pattern;
                
                 if(item.url_pattern == '/*') {
                     throw new Error('Invalid path -> ' + path) 
