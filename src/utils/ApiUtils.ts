@@ -1,6 +1,6 @@
 export class ApiUtils {
 
-    public static validResourcePath(path: string): string {
+    public static removeLevelApiFromPath(path: string): string {
 
         return path.replace('/api/', '/').toLowerCase();
     }

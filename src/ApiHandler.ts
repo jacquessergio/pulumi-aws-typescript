@@ -70,8 +70,10 @@ export class ApiHandler {
                     throw new Error('Invalid path -> ' + item.url_pattern)
                 }
 
+                const path = ApiUtils.removeLevelApiFromPath(item.url_pattern);
+
                 resources.push({
-                    path: ApiUtils.validResourcePath(item.url_pattern),
+                    path: path,
                     method: item.http_method,
                     eventHandler: this.eventHandler,
                     authorizers: (!isAuth) ? [] : this.authorizer,
@@ -99,7 +101,7 @@ export class ApiHandler {
         return this.apiData.then((result: any) => {
             let reources: any = [];
             result.forEach((resource: any) => {
-                reources.push(ApiUtils.validResourcePath(resource.url_pattern))
+                reources.push(ApiUtils.removeLevelApiFromPath(resource.url_pattern))
             });
             return reources;
         });
