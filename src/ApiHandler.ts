@@ -10,7 +10,7 @@ import { CORS } from "./config/CORS"
 import { API } from '@pulumi/awsx/apigateway';
 import { LambdaFunction } from './config/LambdaFunction'
 import { Function } from '@pulumi/aws/lambda';
-import {proxy} from './functions/Handler'
+import { proxy } from './functions/Handler'
 
 
 export class ApiHandler {
@@ -33,7 +33,7 @@ export class ApiHandler {
     }
 
     public async execute() {
-      
+
         let apiCreated: API = new awsx.apigateway.API(`${this.apiName}`, {
             requestValidator: 'PARAMS_ONLY',
             routes: await this.getRoutesTemplate(),
@@ -54,9 +54,9 @@ export class ApiHandler {
 
     private async getRoutesTemplate() {
         let resources: any = [];
-        
+
         this.eventHandler = await this.createAndGetLambdaFunction();
-        
+
         return this.apiData.then(resource => {
             resource?.forEach(item => {
                 let isAuth: boolean = true;
@@ -66,9 +66,9 @@ export class ApiHandler {
                 }
 
                 const path = item.url_pattern.toLowerCase();
-               
-                if(item.url_pattern == '/*') {
-                    throw new Error('Invalid path -> ' + path) 
+
+                if (item.url_pattern == '/*') {
+                    throw new Error('Invalid path -> ' + path)
                 }
 
                 resources.push({
@@ -111,16 +111,16 @@ export class ApiHandler {
     private async setApiConfig(apiCreated: API) {
         const apiData = await this.getApiData()
         this.setConfigGatewayResponse(apiCreated);
-        this.setCustomDomain(apiData, apiCreated)   
+        this.setCustomDomain(apiData, apiCreated)
         this.setConfigCORS(apiCreated);
     }
 
     private async setConfigCORS(apiResponse: API) {
         const cors: CORS = new CORS(apiResponse);
-        const paths: any[] = await this.getPathFromResources();       
+        const paths: any[] = await this.getPathFromResources();
         const resources = [...new Set(paths)]
-        resources.forEach((path:string) => {
-            cors.execute(path.replace('/',''))
+        resources.forEach((path: string) => {
+            cors.execute(path)
         })
     }
 
@@ -128,7 +128,7 @@ export class ApiHandler {
         new Response(api).execute();
     }
 
-    private setCustomDomain(apiData: any, apiCreated: any): void {       
+    private setCustomDomain(apiData: any, apiCreated: any): void {
         new CustomDomain(apiData.name, apiData.host, apiCreated, apiData.basePath.replace('/', ''), this.certificateArn, this.environment).execute();
     }
 
