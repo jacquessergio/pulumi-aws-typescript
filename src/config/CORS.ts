@@ -12,10 +12,6 @@ export class CORS {
         this.restApiId = api.restAPI.id;
     }
 
-    private buildApiMethodName(path: any) {
-        return this.replaceAll(this.replaceAll(path, '/', '-'), '[^a-zA-Z0-9-]+', '');
-    }
-
     public execute(path: any) {
         const name = this.buildApiMethodName(path);
         const resource = this.restApiId.apply((resolvedId: any) =>
@@ -79,6 +75,10 @@ export class CORS {
             { dependsOn: response200 },
         );
 
+    }
+
+    private buildApiMethodName(path: any) {
+        return this.replaceAll(this.replaceAll(path, '/', '-'), '[^a-zA-Z0-9-]+', '');
     }
 
     private replaceAll(str: string, find: string, replace: string) {

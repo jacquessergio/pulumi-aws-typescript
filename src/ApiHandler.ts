@@ -9,6 +9,7 @@ import { Response } from "./config/Response"
 import { CORS } from "./config/CORS"
 import { API } from '@pulumi/awsx/apigateway';
 import { LambdaFunction } from './config/LambdaFunction'
+import { ApiUtils } from './utils/ApiUtils'
 import { Function } from '@pulumi/aws/lambda';
 import { proxy } from './functions/Handler'
 
@@ -65,14 +66,12 @@ export class ApiHandler {
                     isAuth = false;
                 }
 
-                const path = item.url_pattern.toLowerCase();
-
                 if (item.url_pattern == '/*') {
-                    throw new Error('Invalid path -> ' + path)
+                    throw new Error('Invalid path -> ' + item.url_pattern)
                 }
 
                 resources.push({
-                    path: path,
+                    path: ApiUtils.validResourcePath(item.url_pattern),
                     method: item.http_method,
                     eventHandler: this.eventHandler,
                     authorizers: (!isAuth) ? [] : this.authorizer,
@@ -100,7 +99,7 @@ export class ApiHandler {
         return this.apiData.then((result: any) => {
             let reources: any = [];
             result.forEach((resource: any) => {
-                reources.push(resource.url_pattern.toLowerCase())
+                reources.push(ApiUtils.validResourcePath(resource.url_pattern))
             });
             return reources;
         });
