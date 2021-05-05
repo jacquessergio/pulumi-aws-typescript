@@ -119,8 +119,8 @@ export class ApiHandler {
         const cors: CORS = new CORS(apiResponse);
         const paths: any[] = await this.getPathFromResources();       
         const resources = [...new Set(paths)]
-        resources.forEach(path => {
-            cors.execute(path)
+        resources.forEach((path:string) => {
+            cors.execute(path.replace('/',''))
         })
     }
 
