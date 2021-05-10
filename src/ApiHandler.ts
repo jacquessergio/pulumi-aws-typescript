@@ -67,7 +67,12 @@ export class ApiHandler {
                 if (item.auth_scheme == 'None') {
                     isAuth = false;
                 }
-                const path = api.buildPath(item);
+
+                if (item.url_pattern == '/*') {
+                    throw new Error('Invalid path -> ' + item.url_pattern)
+                }
+
+                const path = api.removeLevelApiFromPath(item.url_pattern);
 
                 resources.push({
                     path: path,
@@ -98,7 +103,7 @@ export class ApiHandler {
         return this.apiData.then((result: any) => {
             let reources: any = [];
             result.forEach((resource: any) => {
-                reources.push(api.buildPath(resource.url_pattern))
+                reources.push(api.removeLevelApiFromPath(resource.url_pattern))
             });
             return reources;
         });
