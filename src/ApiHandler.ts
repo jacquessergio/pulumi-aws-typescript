@@ -68,11 +68,8 @@ export class ApiHandler {
                     isAuth = false;
                 }
 
-                if (item.url_pattern == '/*') {
-                    throw new Error('Invalid path -> ' + item.url_pattern)
-                }
-
-                const path = '/' + item.api_version + api.removeLevelApiFromPath(item.url_pattern);
+        
+                const path = api.buildPath(item);
 
                 resources.push({
                     path: path,
@@ -103,7 +100,7 @@ export class ApiHandler {
         return this.apiData.then((result: any) => {
             let reources: any = [];
             result.forEach((resource: any) => {
-                reources.push(api.removeLevelApiFromPath(resource.url_pattern))
+                reources.push(api.buildPath(resource))
             });
             return reources;
         });

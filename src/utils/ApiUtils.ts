@@ -1,8 +1,12 @@
 export class ApiUtils {
 
-    public static removeLevelApiFromPath(path: string): string {
+    public static buildPath(path: any): string {
 
-        return path.replace('/api/', '/').toLowerCase();
+        if (path.url_pattern == '/*') {
+            throw new Error('Invalid path -> ' + path.url_pattern)
+        }
+
+        return '/' + path.api_version + path.url_pattern.replace('/api/', '/').toLowerCase();
     }
 
 }
