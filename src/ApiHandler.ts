@@ -9,7 +9,7 @@ import { Response } from "./config/Response"
 import { CORS } from "./config/CORS"
 import { API } from '@pulumi/awsx/apigateway';
 import { LambdaFunction } from './config/LambdaFunction'
-import { ApiUtils } from './utils/ApiUtils'
+import { ApiUtils as api } from './utils/ApiUtils'
 import { Function } from '@pulumi/aws/lambda';
 import { proxy } from './functions/Handler'
 
@@ -34,6 +34,8 @@ export class ApiHandler {
     }
 
     public async execute() {
+
+        
 
         let apiCreated: API = new awsx.apigateway.API(`${this.apiName}`, {
             requestValidator: 'PARAMS_ONLY',
@@ -65,12 +67,7 @@ export class ApiHandler {
                 if (item.auth_scheme == 'None') {
                     isAuth = false;
                 }
-
-                if (item.url_pattern == '/*') {
-                    throw new Error('Invalid path -> ' + item.url_pattern)
-                }
-
-                const path = ApiUtils.removeLevelApiFromPath(item.url_pattern);
+                const path = api.buildPath(item);
 
                 resources.push({
                     path: path,
@@ -101,7 +98,7 @@ export class ApiHandler {
         return this.apiData.then((result: any) => {
             let reources: any = [];
             result.forEach((resource: any) => {
-                reources.push(ApiUtils.removeLevelApiFromPath(resource.url_pattern))
+                reources.push(api.buildPath(resource.url_pattern))
             });
             return reources;
         });

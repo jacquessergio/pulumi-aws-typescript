@@ -21,9 +21,12 @@ export class Util {
         this.validations(request);
 
         let queryStringParameters: any = request.queryStringParameters;
+        let multiValueQueryStringParameters: any = request.multiValueQueryStringParameters;
+        
+        console.log({multiValueQueryStringParameters})
 
         if (queryStringParameters != null && queryStringParameters !== undefined) {
-            queryStringParameters = querystring.stringify(queryStringParameters)
+            queryStringParameters = querystring.stringify(multiValueQueryStringParameters)
         }
 
         let basePath = this.buildBasePath(request);
