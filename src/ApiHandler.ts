@@ -72,7 +72,7 @@ export class ApiHandler {
                     throw new Error('Invalid path -> ' + item.url_pattern)
                 }
 
-                const path = api.removeLevelApiFromPath(item.url_pattern);
+                const path = '/' + item.api_version + api.removeLevelApiFromPath(item.url_pattern);
 
                 resources.push({
                     path: path,
