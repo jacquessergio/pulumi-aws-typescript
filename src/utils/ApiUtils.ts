@@ -6,7 +6,8 @@ export class ApiUtils {
             throw new Error('Invalid path -> ' + path.url_pattern)
         }
 
-        return '/' + path.api_version + path.url_pattern.replace('/api/', '/').toLowerCase();
+        
+        return path.url_pattern.replace('/api/', '/').toLowerCase();
     }
 
 }
